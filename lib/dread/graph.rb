@@ -1,50 +1,35 @@
 require 'dread/error'
-
+require 'dread/console_output'
 module Dread
   class Graph
 
-    INDENT_INCREASE = 2
+    attr_reader :clazz, :dependable_collection
 
-    attr_reader :clazz, :indent, :dependable_collection
-
-    def initialize(clazz_data, indent=0, pluralized=false)
+    def initialize(clazz_data, pluralized=false)
       set_and_verify_clazz(clazz_data)
-      @indent = indent
       @pluralized = pluralized
     end
 
     # { user: { tweets: { comments: {} }, comments: {}, account_setting: {} } }
     def dependable_collection
-      return @dependable_collection if @dependable_collection.present?
-      relation_hash = {}
-
-      @clazz.reflections.each do |assoc_name, assoc_data|
-        if assoc_data.options[:dependent] == :delete
-          relation_hash[assoc_name] = {}
-        elsif assoc_data.options[:dependent] == :destroy
-          relation_hash[assoc_name] =
-            Graph.new(assoc_data, indent + INDENT_INCREASE, assoc_data.macro == :has_many)
-                 .dependable_collection
-        end
-      end
-
-      @dependable_collection = relation_hash
-    end
-
-    def draw
-      puts " " * indent + relation_name()
-
-      @clazz.reflections.each do |assoc_name, assoc_data|
-        if assoc_data.options[:dependent] == :delete
-          # binding.pry
-          puts " "*(indent+INDENT_INCREASE) + "#{assoc_name}"
-          # "[#{assoc_data.table_name.classify}]"
-        elsif assoc_data.options[:dependent] == :destroy
-          Graph.new(assoc_data, indent + INDENT_INCREASE, assoc_data.macro == :has_many).draw
+      @dependable_collection ||= Hash.new.tap do |relation_hash|
+        @clazz.reflections.each do |assoc_name, assoc_data|
+          if assoc_data.options[:dependent] == :delete
+            relation_hash[assoc_name] = {}
+          elsif assoc_data.options[:dependent] == :destroy
+            relation_hash[assoc_name] =
+              Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection
+          end
         end
       end
     end
 
+    def draw(output='console_output')
+      case output
+      when 'console_output'
+        ConsoleOutput.generate(dependable_collection)
+      end
+    end
 
     private
 
