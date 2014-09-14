@@ -2,7 +2,7 @@ module Dread
   module ConsoleOutput
     class << self
 
-      INDENT_INCREASE = 3
+      INDENT_INCREASE = 4
 
       def generate(dependable_collection, indent=0)
         dependable_collection.each do |relation_name, dependables|

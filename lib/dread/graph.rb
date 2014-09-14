@@ -12,16 +12,17 @@ module Dread
 
     # { user: { tweets: { comments: {} }, comments: {}, account_setting: {} } }
     def dependable_collection
-      @dependable_collection ||= Hash.new.tap do |relation_hash|
+      @dependable_collection ||= { relation_name.to_sym => Hash.new.tap do |relation_hash|
         @clazz.reflections.each do |assoc_name, assoc_data|
           if assoc_data.options[:dependent] == :delete
             relation_hash[assoc_name] = {}
           elsif assoc_data.options[:dependent] == :destroy
-            relation_hash[assoc_name] =
-              Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection
+            relation_hash.merge!(
+              Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
           end
         end
       end
+      }
     end
 
     def draw(output='console_output')
