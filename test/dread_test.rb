@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class DreadTest < ActiveSupport::TestCase
-  test "truth" do
-    assert_kind_of Module, Dread
-  end
-
   test 'initialization' do
     assert_nothing_raised do
       dread_graph = Dread::Graph.new('user')
@@ -20,5 +16,10 @@ class DreadTest < ActiveSupport::TestCase
   test 'drawing' do
     dread_graph = Dread::Graph.new('user')
     dread_graph.draw
+  end
+
+  test 'collecting' do
+    dread_graph = Dread::Graph.new('user')
+    binding.pry
   end
 end
