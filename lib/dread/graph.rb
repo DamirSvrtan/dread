@@ -18,7 +18,7 @@ module Dread
         if assoc_data.options[:dependent] == :delete
           puts " "*(indent+INDENT_INCREASE) + "#{assoc_name} [#{assoc_data.table_name.classify}]"
         elsif assoc_data.options[:dependent] == :destroy
-          Graph.new(assoc_data, indent + INDENT_INCREASE, pluralized = true).draw
+          Graph.new(assoc_data, indent + INDENT_INCREASE, assoc_data.macro == :has_many).draw
         end
       end
     end
