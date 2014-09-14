@@ -7,8 +7,8 @@ require "dread/version"
 Gem::Specification.new do |s|
   s.name        = "dread"
   s.version     = Dread::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
+  s.authors     = ["Damir Svrtan"]
+  s.email       = ["damir.svrtan@gmail.com"]
   s.homepage    = "https://github.com/DamirSvrtan/dread"
   s.summary     = "Summary of Dread."
   s.description = "Description of Dread."
@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 4.1.6"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "pry-rails"
 end
