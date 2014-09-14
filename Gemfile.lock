@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     dread (0.0.1)
-      rails (~> 4.1.6)
+      rails (>= 3.2.0)
 
 GEM
   remote: https://rubygems.org/
