@@ -41,7 +41,7 @@ module Dread
         when String
           clazz_data.classify
         when NilClass
-          raise Error.new('Please pass a env var called class to proceed.')
+          raise Error.new('Please pass a env var called class to proceed. E.g: rake dread class=user')
         else
           raise Error.new("Unable to proceed with #{clazz_data.class}")
         end
