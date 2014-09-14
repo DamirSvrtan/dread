@@ -5,10 +5,8 @@ module Dread
 
     INDENT_INCREASE = 2
 
-    attr_reader :clazz, :indent, :pluralized
-
-    def initialize(clazz, indent=0, pluralized=false)
-      set_and_verify_clazz(clazz)
+    def initialize(clazz_data, indent=0, pluralized=false)
+      set_and_verify_clazz(clazz_data)
       @indent = indent
       @pluralized = pluralized
     end
@@ -20,8 +18,7 @@ module Dread
         if assoc_data.options[:dependent] == :delete
           puts " "*(indent+INDENT_INCREASE) + "#{assoc_name} [#{assoc_data.table_name.classify}]"
         elsif assoc_data.options[:dependent] == :destroy
-          association_clazz = assoc_data.class_name || assoc_data.table_name
-          Graph.new(association_clazz, indent + INDENT_INCREASE, pluralized = true).draw
+          Graph.new(assoc_data, indent + INDENT_INCREASE, pluralized = true).draw
         end
       end
     end
@@ -29,12 +26,27 @@ module Dread
 
     private
 
-      def set_and_verify_clazz(clazz)
-        raise Error.new('Please pass a env var called class to proceed.') if clazz.nil?
+      attr_reader :indent
+
+      def set_and_verify_clazz(clazz_data)
+        clazz_name = ClazzName(clazz_data)
         begin
-          @clazz = clazz.classify.constantize
+          @clazz = clazz_name.constantize
         rescue NameError => e
-          raise Error.new("Unable to find class called #{clazz.classify}")
+          raise Error.new("Unable to find class called #{clazz_name}")
+        end
+      end
+
+      def ClazzName(clazz_data)
+        case clazz_data
+        when ActiveRecord::Reflection::AssociationReflection
+          clazz_data.class_name || clazz_data.table_name
+        when String
+          clazz_data.classify
+        when NilClass
+          raise Error.new('Please pass a env var called class to proceed.')
+        else
+          raise Error.new("Unable to proceed with #{clazz_data.class}")
         end
       end
 
