@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "rails", ">= 3.2.0"
+  s.add_dependency "colorize", '0.7.3'
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "pry-rails"
