@@ -5,7 +5,7 @@ module Dread
 
     INDENT_INCREASE = 2
 
-    attr_reader :dependable_collection
+    attr_reader :clazz, :indent, :dependable_collection
 
     def initialize(clazz_data, indent=0, pluralized=false)
       set_and_verify_clazz(clazz_data)
@@ -47,8 +47,6 @@ module Dread
 
 
     private
-
-      attr_reader :indent
 
       def set_and_verify_clazz(clazz_data)
         clazz_name = ClazzName(clazz_data)
