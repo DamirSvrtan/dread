@@ -20,7 +20,8 @@ module Dread
         if assoc_data.options[:dependent] == :delete
           puts " "*(indent+INDENT_INCREASE) + "#{assoc_name} [#{assoc_data.table_name.classify}]"
         elsif assoc_data.options[:dependent] == :destroy
-          Graph.new(assoc_data.table_name, indent + INDENT_INCREASE, pluralized = true).draw
+          association_clazz = assoc_data.class_name || assoc_data.table_name
+          Graph.new(association_clazz, indent + INDENT_INCREASE, pluralized = true).draw
         end
       end
     end
