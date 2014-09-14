@@ -12,17 +12,8 @@ module Dread
 
     # { user: { tweets: { comments: {} }, comments: {}, account_setting: {} } }
     def dependable_collection
-      @dependable_collection ||= { relation_name.to_sym => Hash.new.tap do |relation_hash|
-        @clazz.reflections.each do |assoc_name, assoc_data|
-          if assoc_data.options[:dependent] == :delete
-            relation_hash[assoc_name] = {}
-          elsif assoc_data.options[:dependent] == :destroy
-            relation_hash.merge!(
-              Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
-          end
-        end
-      end
-      }
+      @dependable_collection ||=
+          { relation_name.to_sym => collect_dependables }
     end
 
     def draw(output='console_output')
@@ -53,6 +44,20 @@ module Dread
           raise Error.new('Please pass a env var called class to proceed.')
         else
           raise Error.new("Unable to proceed with #{clazz_data.class}")
+        end
+      end
+
+      def collect_dependables
+        Hash.new.tap do |relation_hash|
+          @clazz.reflections.each do |assoc_name, assoc_data|
+            case assoc_data.options[:dependent]
+            when :delete
+              relation_hash[assoc_name] = {}
+            when :destroy
+              relation_hash.merge!(
+                Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
+            end
+          end
         end
       end
 
