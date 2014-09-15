@@ -6,14 +6,15 @@ module Dread
     attr_reader :clazz, :dependable_collection
 
     def initialize(clazz_data, pluralized=false)
-      set_and_verify_clazz(clazz_data)
+      set_and_verify_clazz_and_relation(clazz_data)
       @pluralized = pluralized
+      @@tracker ||= []
     end
 
-    # { user: { tweets: { comments: {} }, comments: {}, account_setting: {} } }
+    # { user: { tweets: { comments: {} }, comments: {}, setting: {} } }
     def dependable_collection
       @dependable_collection ||=
-          { relation_name.to_sym => collect_dependables }
+          { @relation.to_sym => collect_dependables }
     end
 
     def draw(output='console_output')
@@ -25,21 +26,30 @@ module Dread
 
     private
 
-      def set_and_verify_clazz(clazz_data)
-        clazz_name = ClazzName(clazz_data)
+      def track!(reflection)
+        @@tracker << reflection
+      end
+
+      def tracked?(reflection)
+        @@tracker.include? reflection
+      end
+
+      def set_and_verify_clazz_and_relation(clazz_data)
         begin
-          @clazz = clazz_name.constantize
+          set_clazz_and_relation(clazz_data)
         rescue NameError => e
           raise Error.new("Unable to find class called #{clazz_name}")
         end
       end
 
-      def ClazzName(clazz_data)
+      def set_clazz_and_relation(clazz_data)
         case clazz_data
         when ActiveRecord::Reflection::AssociationReflection
-          clazz_data.class_name || clazz_data.table_name
+          @clazz = (clazz_data.class_name || clazz_data.table_name).constantize
+          @relation = clazz_data.name
         when String
-          clazz_data.classify
+          @clazz = (clazz_data.classify).constantize
+          @relation = clazz_data
         when NilClass
           raise Error.new('Please pass a env var called class to proceed. E.g: rake dread class=user')
         else
@@ -54,16 +64,14 @@ module Dread
             when :delete
               relation_hash[assoc_name] = {}
             when :destroy
-              relation_hash.merge!(
-                Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
+              unless tracked?(assoc_data)
+                track!(assoc_data)
+                relation_hash.merge!(
+                  Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
+              end
             end
           end
         end
-      end
-
-      def relation_name
-        relation = @pluralized ? @clazz.to_s.pluralize : @clazz.to_s
-        relation.underscore
       end
 
   end
