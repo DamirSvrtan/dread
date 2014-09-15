@@ -64,11 +64,11 @@ module Dread
             when :delete
               relation_hash[assoc_name] = {}
             when :destroy
-              unless tracked?(assoc_data)
-                track!(assoc_data)
+              # unless tracked?(assoc_data)
+                # track!(assoc_data)
                 relation_hash.merge!(
                   Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
-              end
+              # end
             end
           end
         end

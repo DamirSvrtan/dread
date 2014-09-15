@@ -32,8 +32,8 @@ class DreadTest < ActiveSupport::TestCase
     dread_graph = Dread::Graph.new('user')
     dependable_collection = dread_graph.dependable_collection
     dependable_collection.assert_valid_keys(:user)
-    dependable_collection[:user].assert_valid_keys(:tweets, :comments, :setting)
-    dependable_collection[:user][:tweets].assert_valid_keys(:comments)
+    dependable_collection[:user].assert_valid_keys(:tweets, :comments, :setting, :avatar)
+    dependable_collection[:user][:tweets].assert_valid_keys(:comments, :pictures)
   end
 
 end
