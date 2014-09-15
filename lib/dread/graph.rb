@@ -38,7 +38,7 @@ module Dread
         begin
           set_clazz_and_relation(clazz_data)
         rescue NameError => e
-          raise Error.new("Unable to find class called #{clazz_name}")
+          raise Error.new("Unable to find class called #{clazz_data.classify}")
         end
       end
 
