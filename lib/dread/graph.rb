@@ -8,7 +8,6 @@ module Dread
     def initialize(clazz_data, pluralized=false)
       set_and_verify_clazz_and_relation(clazz_data)
       @pluralized = pluralized
-      @@tracker ||= []
     end
 
     # { user: { tweets: { comments: {} }, comments: {}, setting: {} } }
@@ -25,14 +24,6 @@ module Dread
     end
 
     private
-
-      def track!(reflection)
-        @@tracker << reflection
-      end
-
-      def tracked?(reflection)
-        @@tracker.include? reflection
-      end
 
       def set_and_verify_clazz_and_relation(clazz_data)
         begin
@@ -64,11 +55,8 @@ module Dread
             when :delete
               relation_hash[assoc_name] = {}
             when :destroy
-              # unless tracked?(assoc_data)
-                # track!(assoc_data)
-                relation_hash.merge!(
-                  Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
-              # end
+              relation_hash.merge!(
+                Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
             end
           end
         end
