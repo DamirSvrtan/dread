@@ -11,11 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918213749) do
+ActiveRecord::Schema.define(version: 20140918220929) do
 
   create_table "account_settings", force: true do |t|
     t.string   "time_zone"
     t.integer  "country_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "accounts", force: true do |t|
+    t.string   "supplier_id"
+    t.string   "account_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -45,6 +52,12 @@ ActiveRecord::Schema.define(version: 20140918213749) do
     t.string   "url"
     t.integer  "imageable_id"
     t.string   "imageable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "suppliers", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

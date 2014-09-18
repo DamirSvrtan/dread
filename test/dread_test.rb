@@ -49,4 +49,22 @@ class DreadTest < ActiveSupport::TestCase
     dread_graph = Dread::Graph.new('employee')
     dread_graph.draw
   end
+
+  test 'circular dependent destroy has one' do
+    dread_graph = Dread::Graph.new('supplier')
+    dependable_collection = dread_graph.dependable_collection
+    dependable_collection.assert_valid_keys(:supplier)
+    dependable_collection[:supplier].assert_valid_keys(:account)
+    dependable_collection[:supplier][:account].assert_valid_keys(:supplier)
+    dependable_collection[:supplier][:account][:supplier].assert_valid_keys('...'.to_sym)
+  end
+
+  test 'circular dependent destroy belongs_to' do
+    dread_graph = Dread::Graph.new('account')
+    dependable_collection = dread_graph.dependable_collection
+    dependable_collection.assert_valid_keys(:account)
+    dependable_collection[:account].assert_valid_keys(:supplier)
+    dependable_collection[:account][:supplier].assert_valid_keys(:account)
+    dependable_collection[:account][:supplier][:account].assert_valid_keys('...'.to_sym)
+  end
 end
