@@ -71,7 +71,7 @@ class DreadTest < ActiveSupport::TestCase
   test 'namespaced associations' do
     dread_graph = Dread::Graph.new('Wtf::Ashtray')
     dependable_collection = dread_graph.dependable_collection
-    dependable_collection.assert_valid_keys(:'Wtf::Ashtray')
-    dependable_collection[:'Wtf::Ashtray'].assert_valid_keys(:cigarettes)
+    dependable_collection.assert_valid_keys(:'wtf/ashtray')
+    dependable_collection[:'wtf/ashtray'].assert_valid_keys(:cigarettes)
   end
 end

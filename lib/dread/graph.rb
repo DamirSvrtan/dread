@@ -44,7 +44,7 @@ module Dread
           @relation = clazz_data.name
         when String
           @clazz = (clazz_data.classify).constantize
-          @relation = clazz_data
+          @relation = clazz_data.underscore
         when NilClass
           raise Error.new('Please pass a env var called class to proceed. E.g: rake dread class=user')
         else
