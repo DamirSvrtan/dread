@@ -3,17 +3,21 @@ require 'dread/console_output'
 module Dread
   class Graph
 
-    attr_reader :clazz, :dependable_collection
+    attr_reader :clazz, :dependable_collection, :collected_clazzes
 
-    def initialize(clazz_data, pluralized=false)
+    def initialize(clazz_data, pluralized=false, collected_clazzes=[])
       set_and_verify_clazz_and_relation(clazz_data)
       @pluralized = pluralized
+      @collected_clazzes = collected_clazzes
     end
 
     # { user: { tweets: { comments: {} }, comments: {}, setting: {} } }
     def dependable_collection
-      @dependable_collection ||=
+      @dependable_collection ||= if self.clazz.in? collected_clazzes
+          { @relation.to_sym => { '...'.to_sym => {} } }
+        else
           { @relation.to_sym => collect_dependables }
+        end
     end
 
     def draw(output='console_output')
@@ -56,7 +60,7 @@ module Dread
               relation_hash[assoc_name] = {}
             when :destroy
               relation_hash.merge!(
-                Graph.new(assoc_data, assoc_data.macro == :has_many).dependable_collection)
+                Graph.new(assoc_data, assoc_data.macro == :has_many, collected_clazzes + [self.clazz]).dependable_collection)
             end
           end
         end

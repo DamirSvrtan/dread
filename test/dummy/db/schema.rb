@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915161852) do
+ActiveRecord::Schema.define(version: 20140918213749) do
 
   create_table "account_settings", force: true do |t|
     t.string   "time_zone"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20140915161852) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "employees", force: true do |t|
+    t.string   "name"
+    t.integer  "manager_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

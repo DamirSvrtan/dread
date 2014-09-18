@@ -36,4 +36,17 @@ class DreadTest < ActiveSupport::TestCase
     dependable_collection[:user][:tweets].assert_valid_keys(:comments, :pictures)
   end
 
+  test 'self-join' do
+    dread_graph = Dread::Graph.new('employee')
+    dependable_collection = dread_graph.dependable_collection
+    dependable_collection.assert_valid_keys(:employee)
+    dependable_collection[:employee].assert_valid_keys(:subordinates)
+    dependable_collection[:employee][:subordinates].assert_valid_keys('...'.to_sym)
+    assert_equal Hash.new, dependable_collection[:employee][:subordinates]['...'.to_sym]
+  end
+
+  test 'self-join drawing' do
+    dread_graph = Dread::Graph.new('employee')
+    dread_graph.draw
+  end
 end
