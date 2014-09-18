@@ -67,4 +67,11 @@ class DreadTest < ActiveSupport::TestCase
     dependable_collection[:account][:supplier].assert_valid_keys(:account)
     dependable_collection[:account][:supplier][:account].assert_valid_keys('...'.to_sym)
   end
+
+  test 'namespaced associations' do
+    dread_graph = Dread::Graph.new('Wtf::Ashtray')
+    dependable_collection = dread_graph.dependable_collection
+    dependable_collection.assert_valid_keys(:'Wtf::Ashtray')
+    dependable_collection[:'Wtf::Ashtray'].assert_valid_keys(:cigarettes)
+  end
 end

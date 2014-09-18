@@ -40,7 +40,7 @@ module Dread
       def set_clazz_and_relation(clazz_data)
         case clazz_data
         when ActiveRecord::Reflection::AssociationReflection
-          @clazz = (clazz_data.class_name || clazz_data.table_name).constantize
+          @clazz = (clazz_data.klass.to_s || clazz_data.table_name).constantize
           @relation = clazz_data.name
         when String
           @clazz = (clazz_data.classify).constantize
