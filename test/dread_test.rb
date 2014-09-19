@@ -25,7 +25,9 @@ class DreadTest < ActiveSupport::TestCase
 
   test 'various namespaced clazz names' do
     %w(Wtf::Ashtray
-       wtf/ashtray).each do |model_name|
+       Wtf::Ashtrays
+       wtf/ashtray
+       wtf/ashtrays).each do |model_name|
       assert_equal Wtf::Ashtray, Dread::Graph.new(model_name).clazz
     end
   end
