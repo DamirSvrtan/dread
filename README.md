@@ -84,3 +84,15 @@ Dread uses [appraisals](https://github.com/thoughtbot/appraisal) to test the cod
 When first developing, you should run `bundle install` and `appraisal install` to install the all dependencies accross different gemfiles.
 
 Run `appraisal rake` to roll the tests on multiple versions or just run a specific set with `appraisal rails-4.0 rake`.
+
+### Bug reports
+
+If you find a problem with the Dread gem, please submit an [issue](https://github.com/DamirSvrtan/dread/issues), along with the version of Rails you're using and the set of associations that are causing the trouble.
+
+### Contributing
+
+1. Fork it ( http://github.com/DamirSvrtan/dread/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
