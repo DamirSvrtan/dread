@@ -11,7 +11,9 @@ Supports Rails 3.2+ and Ruby 1.9.3+.
 Add the Dread gem to your Gemfile:
 
 ```ruby
-gem 'dread', '>= 0.0.7'
+group :development do
+    gem 'dread', '>= 0.0.7'
+end
 ```
 
 And run `bundle install` within your app's directory.
@@ -20,12 +22,9 @@ And run `bundle install` within your app's directory.
 
 The Dread gem provides a rake task for drawing all dependently destroyable associations.
 
-Command:
 ```bash
-rake dread class=user
-```
-Output:
-```ruby
+$ rake dread class=user
+
 user
     tweets
         comments
@@ -36,9 +35,7 @@ user
     avatar
 ```
 
-
-
-#### Self joins:
+#### Self joins
 
 ```ruby
 class Employee < ActiveRecord::Base
@@ -58,7 +55,7 @@ employee
         ...
 ```
 
-#### Circular dependent destroys:
+#### Circular dependent destroys
 
 ```ruby
 class Supplier < ActiveRecord::Base
