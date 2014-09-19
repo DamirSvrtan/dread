@@ -23,6 +23,13 @@ class DreadTest < ActiveSupport::TestCase
     end
   end
 
+  test 'various namespaced clazz names' do
+    %w(Wtf::Ashtray
+       wtf/ashtray).each do |model_name|
+      assert_equal Wtf::Ashtray, Dread::Graph.new(model_name).clazz
+    end
+  end
+
   test 'drawing' do
     dread_graph = Dread::Graph.new('user')
     dread_graph.draw
