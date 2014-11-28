@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Damir Svrtan"]
   s.email       = ["damir.svrtan@gmail.com"]
   s.homepage    = "https://github.com/DamirSvrtan/dread"
-  s.summary     = "Summary of Dread."
-  s.description = "Description of Dread."
+  s.summary     = "Draw a graph of dependently destroyable associations."
+  s.description = "Draw a graph of dependently destroyable associations and never dread about destroying your records again!"
   s.license     = "MIT"
 
   s.files         = `git ls-files`.split("\n")
