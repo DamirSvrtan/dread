@@ -28,7 +28,7 @@ class Dread::MissingGraphTest < ActiveSupport::TestCase
   test 'can find the model for various namespaced clazz names' do
     %w(Wtf::Ashtray
        wtf/ashtray).each do |model_name|
-      assert_equal Wtf::Ashtray, Dread::Graph.new(model_name).clazz
+      assert_equal Wtf::Ashtray, Dread::MissingGraph.new(model_name).clazz
     end
   end
 

@@ -1,5 +1,5 @@
 require 'pry'
-require 'dread/graph'
+require 'dread/association_graph'
 require 'dread/missing_graph'
 
 module Dread

@@ -1,7 +1,7 @@
 require 'dread/error'
 require 'dread/console_output'
 module Dread
-  class Graph
+  class AssociationGraph
 
     attr_reader :clazz, :dependable_collection, :collected_clazzes
 
@@ -60,7 +60,7 @@ module Dread
               relation_hash[assoc_name] = {}
             when :destroy
               relation_hash.merge!(
-                Graph.new(assoc_data, assoc_data.macro == :has_many, collected_clazzes + [self.clazz]).dependable_collection)
+                AssociationGraph.new(assoc_data, assoc_data.macro == :has_many, collected_clazzes + [self.clazz]).dependable_collection)
             end
           end
         end
