@@ -1,9 +1,16 @@
 # Dread
 
+// missing_dependents
+
 [![Build Status](https://travis-ci.org/DamirSvrtan/dread.svg?branch=master)](https://travis-ci.org/DamirSvrtan/dread)
 [![Code Climate](https://codeclimate.com/github/DamirSvrtan/dread/badges/gpa.svg)](https://codeclimate.com/github/DamirSvrtan/dread)
 
-Draw a graph of dependently destroyable associations and never dread about destroying your records again!
+Never dread about (not) destroying your records again!
+
+Dread provides ways to:
+  1. Draw a graph of dependently destroyable associations
+  2. Find associations with missing depenent destroys/delets/nullifies
+
 Supports Rails 3.2+ and Ruby 1.9.3+.
 
 ## Installation
@@ -12,7 +19,7 @@ Add the Dread gem to your Gemfile:
 
 ```ruby
 group :development do
-    gem 'dread', '>= 0.0.7'
+  gem 'dread', '>= 0.0.7'
 end
 ```
 

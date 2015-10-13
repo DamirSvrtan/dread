@@ -1,5 +1,6 @@
 require 'pry'
 require 'dread/graph'
+require 'dread/missing_graph'
 
 module Dread
   class Railtie < ::Rails::Railtie
