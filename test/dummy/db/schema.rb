@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918223342) do
+ActiveRecord::Schema.define(version: 20151013210550) do
 
   create_table "account_settings", force: true do |t|
     t.string   "time_zone"
@@ -35,6 +35,22 @@ ActiveRecord::Schema.define(version: 20140918223342) do
     t.datetime "updated_at"
   end
 
+  create_table "companies", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "company_organizations", force: true do |t|
+    t.integer  "company_id"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "company_organizations", ["company_id"], name: "index_company_organizations_on_company_id"
+  add_index "company_organizations", ["organization_id"], name: "index_company_organizations_on_organization_id"
+
   create_table "countries", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -44,6 +60,20 @@ ActiveRecord::Schema.define(version: 20140918223342) do
   create_table "employees", force: true do |t|
     t.string   "name"
     t.integer  "manager_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "headquarters", force: true do |t|
+    t.integer  "company_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "headquarters", ["company_id"], name: "index_headquarters_on_company_id"
+
+  create_table "organizations", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

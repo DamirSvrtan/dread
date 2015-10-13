@@ -32,4 +32,8 @@ class Dread::MissingGraphTest < ActiveSupport::TestCase
     end
   end
 
+  test 'company class has missing dependables on company_organization and headquarter' do
+    missing_dependables = Dread::MissingGraph.new('company').missing_dependables
+    assert_equal [:company_organizations, :headquarter], missing_dependables
+  end
 end
