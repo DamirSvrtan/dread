@@ -3,4 +3,5 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_one :avatar,    dependent: :destroy,  class_name: 'Picture',        as: :imageable
   has_one :setting,   dependent: :destroy,  class_name: 'AccountSetting'
+  belongs_to :company
 end

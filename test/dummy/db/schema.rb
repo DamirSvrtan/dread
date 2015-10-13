@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013210550) do
+ActiveRecord::Schema.define(version: 20151013211307) do
 
   create_table "account_settings", force: true do |t|
     t.string   "time_zone"
@@ -104,7 +104,10 @@ ActiveRecord::Schema.define(version: 20151013210550) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "company_id"
   end
+
+  add_index "users", ["company_id"], name: "index_users_on_company_id"
 
   create_table "wtf_ashtrays", force: true do |t|
     t.string   "color"
