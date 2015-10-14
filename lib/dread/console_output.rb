@@ -12,6 +12,15 @@ module Dread
         end
       end
 
+      def generate_missing(klasses_with_missing_dependables)
+        klasses_with_missing_dependables.each do |klass, missing_dependables|
+          puts klass
+          missing_dependables.each do |missing_dependable|
+            puts "  #{missing_dependable}"
+          end
+        end
+      end
+
     end
   end
 end
